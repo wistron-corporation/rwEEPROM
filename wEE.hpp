@@ -1,5 +1,4 @@
-#ifndef __WRITEEE_H_
-#define __WRITEEE_H_
+#pragma once
 
 #define pName_addr_0 0x74
 #define pName_addr_1 0xbc
@@ -62,4 +61,3 @@ string hexToASCII(string hex);
  */
 void paserXML();
 
-#endif
