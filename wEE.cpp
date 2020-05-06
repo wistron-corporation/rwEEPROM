@@ -5,7 +5,7 @@
 //              according to the data in each field in the XML file and               //
 //              flashed to the eeprom binary file.                                    //
 // Author:   Andy YF Wang (Andy_YF_Wang@wistron.com)                                  // 
-// Date  :   2020/05/05                                                               //
+// Date  :   2020/05/06                                                               //
 // Ver.  :   1.0.0                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -233,7 +233,7 @@ void paserXML()
     xmlChar* keySN;   // SerialNumber
     xmlChar* keyPTN;  // PrettyName
 
-    char szDocName[] = "/home/andy/writeEEPROM/testvpddata.xml";
+    char szDocName[] = "/usr/bin/writeEEPROM/vpddata.xml";
 
     // Paser the xml file.
     doc = xmlReadFile(szDocName, "UTF-8", XML_PARSE_RECOVER);

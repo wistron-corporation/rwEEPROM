@@ -10,23 +10,56 @@
 
 using namespace std;
 
-int fd;             // eeprom binary file.
-void openBinFile(); // Open the binary file of eeprom.
-void rwPrettyName(
-    int addr); // Write & read "PrettyName" to the binary file of eeprom.
-void rwPartNumber(
-    int addr); // Write & read "PartNumber" to the binary file of eeprom.
-void rwSerialNumber(
-    int addr); // Write & read "SerialNumber" to the binary file of eeprom.
-void rwMAC(int addr,
-           string data); // Write & read "MAC0" to the binary file of eeprom.
-string hexToASCII(string hex); // Hex-to-ASCII for string.
-void paserXML();               // Paser the xml file.
-
+int fd;         // eeprom binary file.
 string vpdMAC0; // The VPD_Date of MAC0.
 string vpdMAC1; // The VPD_Date of MAC1.
 string vpdPN;   // The VPD_Date of PartNumber.
 string vpdSN;   // The VPD_Date of SerialNumber.
 string vpdPTN;  // The VPD_Date of PrettyName.
+
+/**
+ * Open the binary file of eeprom.
+ */
+void openBinFile();
+
+/**
+ * Write "PrettyName" to the binary file of eeprom. 
+ * @param[in] addr - the address which will be written on eeprom. 
+ */
+void rwPrettyName(
+    int addr);
+
+/**
+ * Write "PartNumber" to the binary file of eeprom.
+ * @param[in] addr - the address which will be written on eeprom.
+ */
+void rwPartNumber(
+    int addr);
+
+/**
+ * Write "SerialNumber" to the binary file of eeprom.
+ * @param[in] addr - the address which will be written on eeprom.
+ */
+void rwSerialNumber(
+    int addr);
+
+/**
+ * Write "MAC" to the binary file of eeprom.
+ * @param[in] addr - the address which will be written on eeprom.
+ * @param[in] data - the data which will be written on eeprom.
+ */
+void rwMAC(int addr,
+           string data);
+
+/**
+ * Transfer the hex to ASCII.
+ * @param[in] hex - the hex which will be transfered to the ASCII.
+ */
+string hexToASCII(string hex);
+
+/**
+ * Paser the XML file.
+ */
+void paserXML();
 
 #endif
