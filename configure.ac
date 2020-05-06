@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([dbus], [1.0], [bug-automake@gnu.org])
+AC_INIT([writeEEPROM], [1.0], [Andy_YF_Wang@wistron.com])
 #AC_LANG([C++])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_CHECK_HEADERS([stdlib.h])

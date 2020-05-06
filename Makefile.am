@@ -9,7 +9,7 @@ wEE_SOURCES = wEE.cpp
 
 wEE_CXXFLAGS = \
         -std=c++11 \
-		-lxml2 \
+	-lxml2 \
         $(LIBXML2_CFLAGS)
 		
 wEE_LDADD = \
