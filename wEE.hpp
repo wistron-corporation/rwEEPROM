@@ -22,33 +22,29 @@ string vpdPTN;  // The VPD_Date of PrettyName.
 void openBinFile();
 
 /**
- * Write "PrettyName" to the binary file of eeprom. 
- * @param[in] addr - the address which will be written on eeprom. 
+ * Write "PrettyName" to the binary file of eeprom.
+ * @param[in] addr - the address which will be written on eeprom.
  */
-void rwPrettyName(
-    int addr);
+void rwPrettyName(int addr);
 
 /**
  * Write "PartNumber" to the binary file of eeprom.
  * @param[in] addr - the address which will be written on eeprom.
  */
-void rwPartNumber(
-    int addr);
+void rwPartNumber(int addr);
 
 /**
  * Write "SerialNumber" to the binary file of eeprom.
  * @param[in] addr - the address which will be written on eeprom.
  */
-void rwSerialNumber(
-    int addr);
+void rwSerialNumber(int addr);
 
 /**
  * Write "MAC" to the binary file of eeprom.
  * @param[in] addr - the address which will be written on eeprom.
  * @param[in] data - the data which will be written on eeprom.
  */
-void rwMAC(int addr,
-           string data);
+void rwMAC(int addr, string data);
 
 /**
  * Transfer the hex to ASCII.
@@ -57,7 +53,6 @@ void rwMAC(int addr,
 string hexToASCII(string hex);
 
 /**
- * Paser the XML file.
+ * Paser the json file.
  */
-void paserXML();
-
+void ParseJsonFromFile(const char* filename);

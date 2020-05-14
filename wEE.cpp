@@ -1,33 +1,38 @@
-////////////////////////////////////////////////////////////////////////////////////////
-// Description: This tool is used to flash new VPD data to eeprom binary file.        //
-//              The VPD data flashed by this tool includes MAC0, MAC1,                //
-//              PartNumber, SerialNumber, and PrettyName, which are parsed            //
-//              according to the data in each field in the XML file and               //
-//              flashed to the eeprom binary file.                                    //
-// Author:   Andy YF Wang (Andy_YF_Wang@wistron.com)                                  // 
-// Date  :   2020/05/06                                                               //
-// Ver.  :   1.0.0                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+// Description: This tool is used to flash new VPD data to eeprom binary file. //
+//              The VPD data flashed by this tool includes MAC0, MAC1,         //
+//              PartNumber, SerialNumber, and PrettyName, which are parsed     //
+//              according to the data in each field in the Json file and       //
+//              flashed to the eeprom binary file.                             //
+// Author:   Andy YF Wang (Andy_YF_Wang@wistron.com)                           //
+// Date  :   2020/05/14                                                        //
+// Ver.  :   1.0.0                                                             //
+/////////////////////////////////////////////////////////////////////////////////
 
 #include "wEE.hpp"
 
 #include <bits/stdc++.h>
 #include <fcntl.h>
-#include <libxml/parser.h> // For pasering xml file.
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h> // Includes explicit declaration of lseek.
 
+#include <nlohmann/json.hpp> // For parsering json file.
+
 #include <iostream>
 #include <string>
+
+static const auto JSON_FILE = "/home/root/vpddata.json";
+
+using json = nlohmann::json; // For parsering json file.
 
 int main(void)
 {
     // Open eeprom file.
     openBinFile();
 
-    // Paser the xml file.
-    paserXML();
+    // Paser the json file.
+    ParseJsonFromFile(JSON_FILE);
 
     if (fd)
     {
@@ -49,7 +54,7 @@ int main(void)
 // Open binary file of eeprom.
 void openBinFile()
 {
-    fd = open("/home/andy/writeEEPROM/eeprom", O_RDWR);
+    fd = open("/home/root/eeprom", O_RDWR);
     if (fd < 0)
     {
         close(fd);
@@ -222,87 +227,39 @@ string hexToASCII(string hex)
     return ascii_value;
 }
 
-// Paser the XML file.
-void paserXML()
+// Parser the json file.
+void ParseJsonFromFile(const char* filename)
 {
-    xmlDocPtr doc;
-    xmlNodePtr curNode;
-    xmlChar* keyMAC0; // MAC0 address
-    xmlChar* keyMAC1; // MAC1 address
-    xmlChar* keyPN;   // PartNumber
-    xmlChar* keySN;   // SerialNumber
-    xmlChar* keyPTN;  // PrettyName
-
-    char szDocName[] = "/usr/bin/writeEEPROM/vpddata.xml";
-
-    // Paser the xml file.
-    doc = xmlReadFile(szDocName, "UTF-8", XML_PARSE_RECOVER);
-    if (NULL == doc)
+    ifstream jfile;
+    jfile.open(filename);
+    if (!jfile.is_open())
     {
-        cerr << "Paser the xml file fail!" << endl;
+        std::cerr << "Can't open json file." << std::endl;
     }
 
-    curNode = xmlDocGetRootElement(doc);
-    if (NULL == curNode)
+    auto jfdata = json::parse(jfile, nullptr, false);
+    if (jfdata.is_discarded())
     {
-        xmlFreeDoc(doc);
+        std::cerr << "Parser json file fail." << std::endl;
     }
 
-    if (xmlStrcmp(curNode->name, BAD_CAST "record"))
+    static const std::vector<json> empty{};
+    std::vector<json> reading = jfdata.value("vpddata", empty);
+    if (!reading.empty())
     {
-        xmlFreeDoc(doc);
+        for (const auto& instance : reading)
+        {
+            vpdMAC0 = instance.value("MAC0", "");
+            vpdMAC1 = instance.value("MAC1", "");
+            vpdPN = instance.value("PN", "");
+            vpdSN = instance.value("SN", "");
+            vpdPTN = instance.value("PTN", "");
+        }
+    }
+    else
+    {
+        std::cerr << "Can't get the VPDdata" << std::endl;
     }
 
-    curNode = curNode->xmlChildrenNode;
-
-    while (curNode != NULL)
-    {
-        // Get the data of MAC0.
-        if ((!xmlStrcmp(curNode->name, (const xmlChar*)"keyword1")))
-        {
-            keyMAC0 = xmlNodeGetContent(curNode);
-            string mac0(reinterpret_cast<char*>(keyMAC0));
-            vpdMAC0 = mac0;
-            xmlFree(keyMAC0);
-        }
-
-        // Get the data of MAC1.
-        if ((!xmlStrcmp(curNode->name, (const xmlChar*)"keyword2")))
-        {
-            keyMAC1 = xmlNodeGetContent(curNode);
-            string mac1(reinterpret_cast<char*>(keyMAC1));
-            vpdMAC1 = mac1;
-            xmlFree(keyMAC1);
-        }
-
-        // Get the data of PN.
-        if ((!xmlStrcmp(curNode->name, (const xmlChar*)"keyword3")))
-        {
-            keyPN = xmlNodeGetContent(curNode);
-            string pn(reinterpret_cast<char*>(keyPN));
-            vpdPN = pn;
-            xmlFree(keyPN);
-        }
-
-        // Get the data of SN.
-        if ((!xmlStrcmp(curNode->name, (const xmlChar*)"keyword4")))
-        {
-            keySN = xmlNodeGetContent(curNode);
-            string sn(reinterpret_cast<char*>(keySN));
-            vpdSN = sn;
-            xmlFree(keySN);
-        }
-
-        // Get the data of PTN.
-        if ((!xmlStrcmp(curNode->name, (const xmlChar*)"keyword5")))
-        {
-            keyPTN = xmlNodeGetContent(curNode);
-            string ptn(reinterpret_cast<char*>(keyPTN));
-            vpdPTN = ptn;
-            xmlFree(keyPTN);
-        }
-
-        curNode = curNode->next;
-    }
-    xmlFreeDoc(doc);
+    jfile.close();
 }
