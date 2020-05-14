@@ -1,5 +1,4 @@
- Description: 
- This tool is used to flash new VPD format to eeprom binary file,
+ Description: 																																																																																																	This tool is used to flash new VPD format to eeprom binary file,
  and update eeprom(/sys/bus/i2c/devices/8-0050/eeprom) via updatevpd.sh.
  
  The VPD data flashed by this tool includes MAC0, MAC1, PartNumber,    
