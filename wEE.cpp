@@ -9,6 +9,8 @@
 // Ver.  :   1.0.0                                                             //
 /////////////////////////////////////////////////////////////////////////////////
 
+#include <iostream>
+#include <string>
 #include "wEE.hpp"
 
 #include <bits/stdc++.h>
@@ -16,11 +18,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h> // Includes explicit declaration of lseek.
-
 #include <nlohmann/json.hpp> // For parsering json file.
-
-#include <iostream>
-#include <string>
 
 static const auto JSON_FILE = "/home/root/vpddata.json";
 
