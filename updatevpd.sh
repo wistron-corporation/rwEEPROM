@@ -54,7 +54,7 @@ sed -i "s/ptn/SYSTEM PLANAR/g" /home/root/vpddata.json
 
 ### Flash new VPD format data to the binary of eeprom ###
 echo -e " > Flash new VPD format data to the binary of eeprom\n ---------------------------------"
-./write-eeprom
+/usr/bin/env write-eeprom
 echo -e " ---------------------------------"
 
 ### Write VPD binary to EEPROM ###
