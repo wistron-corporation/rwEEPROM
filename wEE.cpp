@@ -29,7 +29,7 @@ int main(void)
     // Open eeprom file.
     openBinFile();
 
-    // Pase the json file.
+    // Parse the json file.
     ParseJsonFromFile(JSON_FILE);
 
     if (fd)
