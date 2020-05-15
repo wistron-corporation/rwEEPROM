@@ -54,5 +54,6 @@ string hexToASCII(string hex);
 
 /**
  * Paser the json file.
+ * @param[in] filename - the Json file.
  */
 void ParseJsonFromFile(const char* filename);

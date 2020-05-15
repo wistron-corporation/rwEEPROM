@@ -18,18 +18,18 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h> // Includes explicit declaration of lseek.
-#include <nlohmann/json.hpp> // For parsering json file.
+#include <nlohmann/json.hpp> // For parsing json file.
 
 static const auto JSON_FILE = "/home/root/vpddata.json";
 
-using json = nlohmann::json; // For parsering json file.
+using json = nlohmann::json; // For parsing json file.
 
 int main(void)
 {
     // Open eeprom file.
     openBinFile();
 
-    // Paser the json file.
+    // Pase the json file.
     ParseJsonFromFile(JSON_FILE);
 
     if (fd)
@@ -103,7 +103,7 @@ void rwPartNumber(int addr)
     }
 }
 
-// Write & Read the data of SerialNumber.
+// Write the data of SerialNumber.
 void rwSerialNumber(int addr)
 {
     int len, size;
@@ -225,7 +225,7 @@ string hexToASCII(string hex)
     return ascii_value;
 }
 
-// Parser the json file.
+// Parse the json file.
 void ParseJsonFromFile(const char* filename)
 {
     ifstream jfile;
