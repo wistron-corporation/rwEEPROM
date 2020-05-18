@@ -1,14 +1,3 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Description: This tool is used to flash new VPD data to eeprom binary file. //
-//              The VPD data flashed by this tool includes MAC0, MAC1,         //
-//              PartNumber, SerialNumber, and PrettyName, which are parsed     //
-//              according to the data in each field in the Json file and       //
-//              flashed to the eeprom binary file.                             //
-// Author:   Andy YF Wang (Andy_YF_Wang@wistron.com)                           //
-// Date  :   2020/05/14                                                        //
-// Ver.  :   1.0.0                                                             //
-/////////////////////////////////////////////////////////////////////////////////
-
 #include <iostream>
 #include <string>
 #include "wEE.hpp"
@@ -26,7 +15,7 @@ using json = nlohmann::json; // For parsing json file.
 
 int main(void)
 {
-    // Open eeprom file.
+    // Open the file of eeprom.
     openBinFile();
 
     // Parse the json file.
@@ -126,7 +115,7 @@ void rwSerialNumber(int addr)
 }
 
 // Write the data of MAC.
-// Because the MAC data parsed from the XML file
+// Because the MAC data parsed from the json file
 // is a string, if the function writes this string
 // directly to the eeprom binary, there will be
 // errors in the data (the data written to the eeprom
