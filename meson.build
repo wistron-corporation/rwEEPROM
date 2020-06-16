@@ -1,5 +1,5 @@
 project(
-    'write-eeprom',
+    'writeEE',
     'cpp',
     version: '1.0',
     default_options: [
@@ -7,7 +7,7 @@ project(
     ],
 )
 executable(
-    'write-eeprom',
+    'writeEE',
     [
         'wEE.cpp',
     ],

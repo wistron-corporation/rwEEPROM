@@ -1,54 +1,103 @@
 #pragma once
-
-#define pName_addr_0 0x74
-#define pName_addr_1 0xbc
-#define pNumber_addr 0xcf
-#define sNumber_addr 0xe2
-#define mac0_addr 0x87
-#define mac1_addr 0x100
+#include <fstream>
 
 using namespace std;
 
-int fd;         // eeprom binary file.
-string vpdMAC0; // The VPD_Date of MAC0.
-string vpdMAC1; // The VPD_Date of MAC1.
-string vpdPN;   // The VPD_Date of PartNumber.
-string vpdSN;   // The VPD_Date of SerialNumber.
-string vpdPTN;  // The VPD_Date of PrettyName.
+/**
+ * The parameter which is used by fstream().
+ * - the file of eeprom.
+ */
+fstream efile;
 
 /**
- * Open the binary file of eeprom.
+ * The parameter which is used by CLI.
+ * - the VPD data.
  */
-void openBinFile();
+string value;
+
+/**
+ * The parameter which is used by parseJsonFromFile().
+ * - the path of eeprom.
+ */
+string eepromPATH;
+
+/**
+ * Five kinds of VPD data, used by getDataAddr()
+ * to get addr of VPD data.
+ */
+enum class vpdData : int
+{
+    VINI_DR,
+    VINI_B1,
+    OPFR_VD,
+    OPFR_VN,
+    OPFR_DR,
+    OPFR_VP,
+    OPFR_VS,
+    OPFR_MB,
+    OPFR_B1
+};
+
+/**
+ * Init all data in Mihawk's eeprom if the VPD format is old.
+ */
+void initData();
+
+/**
+ * Do the action of "writing data" to the binary file of eeprom.
+ * @param[in] keyword - the keyword of VPD_Data.
+ * @param[in] data - the data which will be written in eeprom.
+ */
+void writeData(int keyword, string data);
+
+/**
+ * Write "VD" to the binary file of eeprom.
+ * @param[in] data - the data which will be written in eeprom.
+ */
+void rwVD(string data);
+
+/**
+ * Write "VN" to the binary file of eeprom, ex.IBM.
+ * @param[in] data - the data which will be written in eeprom.
+ */
+void rwVN(string data);
+
+/**
+ * Write "MB" to the binary file of eeprom.
+ * @param[in] data - the data which will be written in eeprom.
+ */
+void rwMB(string data);
 
 /**
  * Write "PrettyName" to the binary file of eeprom.
- * @param[in] addr - the address which will be written on eeprom.
+ * @param[in] addr - the address which will be written in eeprom.
+ * @param[in] data - the data which will be written in eeprom.
  */
-void rwPrettyName(int addr);
+void rwPrettyName(int addr, string data);
 
 /**
  * Write "PartNumber" to the binary file of eeprom.
- * @param[in] addr - the address which will be written on eeprom.
+ * @param[in] data - the data which will be written in eeprom.
  */
-void rwPartNumber(int addr);
+void rwPartNumber(string data);
 
 /**
  * Write "SerialNumber" to the binary file of eeprom.
- * @param[in] addr - the address which will be written on eeprom.
+ * @param[in] data - the data which will be written in eeprom.
  */
-void rwSerialNumber(int addr);
+void rwSerialNumber(string data);
 
 /**
  * Write "MAC" to the binary file of eeprom.
- * @param[in] addr - the address which will be written on eeprom.
- * @param[in] data - the data which will be written on eeprom.
+ * @param[in] addr - the address which will be written in eeprom.
+ * @param[in] data - the data which will be written in eeprom.
  */
 void rwMAC(int addr, string data);
 
 /**
  * Transfer the hex to ASCII.
  * @param[in] hex - the hex which will be transfered to the ASCII.
+ * @return string - the ASCII data.
  */
 string hexToASCII(string hex);
 
@@ -56,4 +105,4 @@ string hexToASCII(string hex);
  * Paser the json file.
  * @param[in] filename - the Json file.
  */
-void ParseJsonFromFile(const char* filename);
+void parseJsonFromFile(const char* filename);
