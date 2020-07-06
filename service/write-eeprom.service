@@ -1,0 +1,15 @@
+[Unit]
+Description=Update new VPD to EEPROM
+Requires=obmc-host-startmin@0.target
+After=obmc-host-startmin@0.target
+After=obmc-power-on@0.target
+Conflicts=obmc-chassis-poweroff@0.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env updatevpd.sh
+SyslogIdentifier=updatevpd.sh
+Restart=no
+
+
+
