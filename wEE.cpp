@@ -156,12 +156,12 @@ void initData()
         efile.close();
     }
 
+    // Check the eeprom data(mac addr) whether is old.
+    // Init the eeprom if it is the old format.
     efile.seekg(162, ios::beg);
     efile.read(check, 2);
-
     if (check[0] == 'B' && check[1] == '1')
     {
-        std::cout << "check 2" << std::endl;
         for (i = 0; i < 288; i++)
         {
             efile.seekp(i, ios::beg);
