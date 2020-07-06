@@ -8,13 +8,13 @@
 
 ##Get MAC0 via BMC's REST command ## 
 eth0_mac=$(busctl get-property xyz.openbmc_project.Network /xyz/openbmc_project/network/eth0 xyz.openbmc_project.Network.MACAddress MACAddress |sed 's/^...//;s/.$//;s/\://;s/\://;s/\://;s/\://;s/\://') 
-if ["${#eth0_mac}" -ne 12]; then 
+if [ "${#eth0_mac}" -ne 12 ]; then
     eth0_mac=0$eth0_mac 
 fi
 
 ##Get MAC1 via BMC's REST command ##
 eth1_mac=$(busctl get-property xyz.openbmc_project.Network /xyz/openbmc_project/network/eth1 xyz.openbmc_project.Network.MACAddress MACAddress |sed 's/^...//;s/.$//;s/\://;s/\://;s/\://;s/\://;s/\://') 
-if ["${#eth1_mac}" -ne 12]; then 
+if [ "${#eth1_mac}" -ne 12 ]; then
     eth1_mac=0$eth1_mac 
 fi
 
@@ -36,7 +36,7 @@ do
     fi
 
     if [[ -n "$sn" ]]; then 
-        /usr/bin/env writeEE -s -v $sn 
+        /usr/bin/env writeEE -g -v $sn 
     fi
 
     if [[ -n "$eth0_mac" ]]; then 
@@ -48,7 +48,7 @@ do
     fi
 
     ### Run command to reset BMC’s VPD service ###
-    printf"\n > Reset BMC’s VPD service...\n" 
+    printf "\n > Reset BMC’s VPD service...\n" 
     systemctl stop op-vpd-parser.service 
     echo -e "\n > Stop op-vpd-parser.service\n " 
     systemctl start op-vpd-parser.service 
